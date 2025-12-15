@@ -10,6 +10,15 @@
 #   make clean     - Clean build artifacts
 #   make test      - Build and run basic tests
 
+# Default PREFIX for Homebrew compatibility
+PREFIX ?= /usr/local
+DESTDIR ?=
+
+# Override INSTALL_PATH to prevent dry-makefile's install from being used
+# Use override to ensure it can't be changed by dry-makefile
+# Set it to an invalid path so if dry-makefile's install is accidentally used, it will fail
+override INSTALL_PATH = /INVALID/PATH/TO/PREVENT/DRY/MAKEFILE/INSTALL
+
 # Check if dry-makefile needs to be downloaded
 DRY_MAKEFILE := .dry-makefile
 
@@ -33,21 +42,18 @@ $(DRY_MAKEFILE):
 	fi
 
 # Install target for Homebrew (must override dry-makefile's install)
+# This must be defined AFTER including dry-makefile to override its install target
 .PHONY: install
 install: release
 	@if [ ! -f src/tftp ]; then \
 		echo "Error: src/tftp not found. Build may have failed."; \
 		exit 1; \
 	fi
-	@echo "Installing tftpd..."
+	@echo "Installing tftpd to $(DESTDIR)$(PREFIX)/bin/tftpd..."
 	@mkdir -p $(DESTDIR)$(PREFIX)/bin
 	@cp src/tftp $(DESTDIR)$(PREFIX)/bin/tftpd
 	@chmod +x $(DESTDIR)$(PREFIX)/bin/tftpd
 	@echo "Installed to $(DESTDIR)$(PREFIX)/bin/tftpd"
-
-# Default PREFIX for Homebrew compatibility
-PREFIX ?= /usr/local
-DESTDIR ?=
 
 .PHONY: help
 help:
