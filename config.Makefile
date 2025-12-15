@@ -26,8 +26,8 @@ debug:   COMPILER_FLAGS += -ggdb3 -Werror -pedantic -DDEBUG -fsanitize=address
 .PHONY: test
 test: debug
 	@echo "Running TFTP server tests..."
-	./tftpd -h
+	./src/tftp -h
 	@echo ""
 	@echo "To manually test:"
-	@echo "  Terminal 1: ./tftpd -p 6969 -d . -v"
+	@echo "  Terminal 1: ./src/tftp -p 6969 -d . -v"
 	@echo "  Terminal 2: echo 'test' > test.txt && tftp localhost 6969 -c get test.txt"
