@@ -9,6 +9,7 @@
 # Compiled binaries
 src/tftp
 tftp
+tftpd
 tftp-server
 
 # Log files
@@ -16,7 +17,7 @@ tftp-server
 server.log
 
 # Build system
-.dry-makefile
+# .dry-makefile - included in repo for Homebrew builds
 
 # Editor and IDE files
 .vscode/
